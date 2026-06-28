@@ -101,46 +101,46 @@ Le projet est organisé en fichiers séparés pour assurer la maintenabilité :
 
 | # | Question | Temps | Résultat |
 |---|----------|-------|---------|
-| 1 | Pourquoi Marrakech est-elle appelée la ville rouge ? | 1.18s | ✅ |
-| 2 | Quelles sont les tanneries les plus anciennes du monde ? | 0.70s | ✅ |
-| 3 | Pourquoi les maisons de Chefchaouen sont-elles peintes en bleu ? | 2.87s | ✅ |
-| 4 | Quelle est la hauteur du minaret de la mosquée Hassan II ? | 2.72s | ✅ |
-| 5 | Quelle est la plus ancienne université encore en activité ? | 0.60s | ✅ |
-| 6 | Quelle ville est connue pour ses plages et son surf ? | 0.67s | ✅ |
-| 7 | Quel est le plat typique de Fès ? | 0.90s | ✅ |
-| 8 | À quelle distance se trouve l'aéroport Mohammed V ? | 4.83s | ✅ |
-| 9 | Quelle catastrophe a frappé Agadir en 1960 ? | 7.79s | ✅ |
-| 10 | Combien de kilomètres fait la plage d'Agadir ? | 11.03s | ✅ |
+| 1 | Pourquoi Marrakech est-elle appelée la ville rouge ? | 4.64s | ✅ |
+| 2 | Quelle est la hauteur du minaret de la mosquée Hassan II ? | 2.71s | ✅ |
+| 3 | Quelle est la plus ancienne université du monde à Fès ? | 4.18s | ✅ |
+| 4 | Quelle ville est connue pour son festival des vents et son surf ? | 3.42s | ✅ |
+| 5 | Quel est le plat typique de Fès ? | 4.27s | ✅ |
+| 6 | À quelle distance se trouve l'aéroport Mohammed V ? | 3.98s | ✅ |
+| 7 | Pourquoi Essaouira est-elle surnommée la ville des vents ? | 4.05s | ✅ |
+| 8 | Quelle est la particularité architecturale de la médina de Fès ? | 4.76s | ✅ |
+| 9 | Quel est le style architectural dominant de Casablanca ? | 3.00s | ✅ |
+| 10 | Quelle ville du nord est face à l'Espagne sur le détroit ? | 5.83s | ✅ |
 
-**Temps moyen : 3.33s — Taux de réussite : 100%**
+**Temps moyen : 4.08s — Taux de réussite : 100%**
 
 ### 3.2 Questions complexes — 10/10 correctes
 
 | # | Question | Temps | Résultat |
 |---|----------|-------|---------|
-| 1 | Marrakech + Fès en une semaine, budget limité ? | 11.38s | ✅ |
-| 2 | Marrakech vs Chefchaouen pour la photographie ? | 13.98s | ✅ |
-| 3 | Meilleure période pour éviter chaleur et foules ? | 8.82s | ✅ |
-| 4 | Surf + culture : combinaison de villes sur 10 jours ? | 19.16s | ✅ |
-| 5 | Différences architecturales Fès vs Marrakech ? | 10.67s | ✅ |
-| 6 | Excursions depuis Essaouira ? | 11.12s | ✅ |
-| 7 | Circuit 2 semaines — 5 villes ? | 10.88s | ✅ |
-| 8 | Plats traditionnels par ville ? | 9.50s | ✅ |
-| 9 | Voyage en famille : quelle ville choisir ? | 8.30s | ✅ |
-| 10 | Avantages/inconvénients Casablanca vs villes impériales ? | 12.20s | ✅ |
+| 1 | Marrakech + Fès en une semaine, budget limité ? | 6.76s | ✅ |
+| 2 | Marrakech vs Essaouira pour la photographie ? | 15.67s | ✅ |
+| 3 | Meilleure période pour éviter chaleur et foules ? | 5.75s | ✅ |
+| 4 | Surf + culture : combinaison de villes sur 10 jours ? | 7.08s | ✅ |
+| 5 | Différences architecturales Fès vs Marrakech ? | 7.33s | ✅ |
+| 6 | Excursions depuis Tanger pour le nord du Maroc ? | 5.38s | ✅ |
+| 7 | Circuit 2 semaines — 5 villes ? | 8.22s | ✅ |
+| 8 | Plats traditionnels par ville ? | 9.09s | ✅ |
+| 9 | Voyage en famille : Marrakech, Essaouira ou Tanger ? | 5.46s | ✅ |
+| 10 | Avantages/inconvénients Casablanca vs villes impériales ? | 7.30s | ✅ |
 
-**Temps moyen : 11.60s — Taux de réussite : 100%**
+**Temps moyen : 7.80s — Taux de réussite : 100%**
 
 ### 3.3 Synthèse des performances
 
 | Métrique | Questions simples | Questions complexes |
 |----------|------------------|-------------------|
-| Temps moyen | 3.33s | 11.60s |
-| Temps minimum | 0.60s | 8.30s |
-| Temps maximum | 11.03s | 19.16s |
+| Temps moyen | 4.08s | 7.80s |
+| Temps minimum | 2.71s | 5.38s |
+| Temps maximum | 5.83s | 15.67s |
 | Taux de succès | 100% | 100% |
 
-Les questions complexes prennent en moyenne **3x plus de temps** que les questions simples, ce qui s'explique par la longueur des réponses générées et le raisonnement multi-étapes de l'agent.
+Les questions complexes prennent en moyenne **2x plus de temps** que les questions simples, ce qui s'explique par la longueur des réponses générées et le raisonnement multi-étapes de l'agent. Le temps total pour les 20 questions est de **118.88 secondes**.
 
 ---
 
