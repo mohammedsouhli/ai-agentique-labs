@@ -1,9 +1,0 @@
-{
-    "markdown-pdf.displayHeaderFooter": true,
-    "markdown-pdf.headerTemplate": "<div></div>",
-    "markdown-pdf.footerTemplate": "<div style='font-size:9px; margin:0 auto; color:#aaa;'>Page <span class='pageNumber'></span> / <span class='totalPages'></span></div>",
-    "markdown-pdf.margin.top": "20mm",
-    "markdown-pdf.margin.bottom": "15mm",
-    "markdown-pdf.margin.left": "15mm",
-    "markdown-pdf.margin.right": "15mm"
-}
