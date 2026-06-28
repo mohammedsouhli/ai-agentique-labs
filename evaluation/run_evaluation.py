@@ -18,6 +18,9 @@ def ask(app, question: str, retries: int = 3) -> dict:
             result = app.invoke({"messages": [HumanMessage(content=question)]})
             duration = round(time.time() - start, 2)
             answer = result["messages"][-1].content
+            # Detect if model returned raw JSON tool call instead of a real answer
+            if answer.strip().startswith('{"name"') or answer.strip().startswith("{'name'"):
+                raise ValueError("Modèle a retourné un appel d'outil brut, nouvelle tentative...")
             return {"question": question, "answer": answer, "time": duration}
         except Exception as e:
             error_str = str(e)

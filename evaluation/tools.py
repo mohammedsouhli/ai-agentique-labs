@@ -4,7 +4,7 @@ Chaque outil est une fonction que l'agent peut décider d'appeler.
 """
 
 from langchain_core.tools import tool
-from duckduckgo_search import DDGS
+from ddgs import DDGS
 
 
 def create_tools(retriever):
