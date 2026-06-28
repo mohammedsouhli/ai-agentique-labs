@@ -16,17 +16,17 @@ Le domaine choisi est le **tourisme au Maroc**. Ce choix est motivé par la rich
 
 ### 1.2 Construction de la base documentaire
 
-Cinq documents textuels ont été créés, chacun dédié à une grande ville touristique marocaine :
+Cinq guides touristiques officiels au format PDF ont été utilisés comme base documentaire :
 
 | Document | Contenu |
 |----------|---------|
-| `marrakech.txt` | Attractions, hébergement, gastronomie, transport |
-| `fes.txt` | Médina, artisanat, université Al Quaraouiyine |
-| `chefchaouen.txt` | Ville bleue, randonnées, culture berbère |
-| `casablanca.txt` | Mosquée Hassan II, Art Déco, centre économique |
-| `agadir.txt` | Plages, surf, excursions dans le Sud |
+| `Marrakech-FR-Web.pdf` | Attractions, hébergement, gastronomie, médina |
+| `Fes FR.pdf` | Médina, tanneries, université Al Quaraouiyine |
+| `Casablanca FR.pdf` | Mosquée Hassan II, Art Déco, centre économique |
+| `Essaouira FR.pdf` | Médina, port, culture gnaoua |
+| `Tanger FR.pdf` | Détroit, Kasbah, histoire méditerranéenne |
 
-Ces documents ont été découpés en **32 chunks** de 500 caractères avec un chevauchement de 50 caractères afin de préserver le contexte entre les fragments.
+Ces documents totalisent **75 pages PDF** découpées en **344 chunks** de 500 caractères avec un chevauchement de 50 caractères afin de préserver le contexte entre les fragments.
 
 ### 1.3 Vectorisation et indexation
 
@@ -38,7 +38,7 @@ Trois outils ont été développés pour l'agent :
 
 - **`recherche_tourisme`** : effectue une recherche vectorielle dans la base FAISS et retourne les chunks les plus pertinents avec leur source.
 - **`conseils_pratiques`** : fournit des informations pratiques générales (monnaie, visa, langue, sécurité) sans passer par la base vectorielle.
-- **`recherche_web`** : effectue une recherche sur internet via DuckDuckGo pour répondre aux questions sur des destinations non couvertes dans la base documentaire (Rabat, Tanger, Sahara, etc.).
+- **`recherche_web`** : effectue une recherche sur internet via DuckDuckGo pour répondre aux questions sur des destinations non couvertes dans la base documentaire.
 
 ### 1.5 Construction du graphe LangGraph
 
@@ -62,7 +62,7 @@ __start__ → agent → recherche_tourisme → agent → __end__
 | Noeud | Rôle |
 |-------|------|
 | `agent` | Reçoit la question, décide quel outil appeler ou répond directement |
-| `recherche_tourisme` | Recherche vectorielle dans la base FAISS (5 villes) |
+| `recherche_tourisme` | Recherche vectorielle dans la base FAISS (5 guides PDF) |
 | `conseils_pratiques` | Informations pratiques générales sur le Maroc |
 | `recherche_web` | Recherche internet DuckDuckGo pour les destinations hors base |
 
@@ -75,7 +75,7 @@ L'état du graphe est défini par `AgentState` contenant un champ `messages` qui
 1. L'utilisateur soumet une question
 2. L'agent (LLM Ollama `llama3.2:3b`, exécuté localement) analyse la question
 3. L'agent décide quel outil utiliser via `should_continue`
-4. L'outil est exécuté (recherche FAISS ou conseils pratiques)
+4. L'outil est exécuté (recherche FAISS, conseils ou recherche web)
 5. Le résultat de l'outil est renvoyé à l'agent
 6. L'agent génère la réponse finale en français
 
@@ -85,7 +85,7 @@ Le projet est organisé en fichiers séparés pour assurer la maintenabilité :
 
 | Fichier | Responsabilité |
 |---------|---------------|
-| `ingest.py` | Chargement, découpage et vectorisation des documents |
+| `ingest.py` | Chargement PDF, découpage et vectorisation des documents |
 | `tools.py` | Définition des 3 outils de l'agent |
 | `graph.py` | Architecture LangGraph (state, noeuds, edges) |
 | `questions.py` | Banc de questions pour l'évaluation |
@@ -112,7 +112,7 @@ Le projet est organisé en fichiers séparés pour assurer la maintenabilité :
 | 9 | Quelle catastrophe a frappé Agadir en 1960 ? | 7.79s | ✅ |
 | 10 | Combien de kilomètres fait la plage d'Agadir ? | 11.03s | ✅ |
 
-**Temps moyen : 0.65s — Taux de réussite : 100%**
+**Temps moyen : 3.33s — Taux de réussite : 100%**
 
 ### 3.2 Questions complexes — 10/10 correctes
 
@@ -123,24 +123,24 @@ Le projet est organisé en fichiers séparés pour assurer la maintenabilité :
 | 3 | Meilleure période pour éviter chaleur et foules ? | 8.82s | ✅ |
 | 4 | Surf + culture : combinaison de villes sur 10 jours ? | 19.16s | ✅ |
 | 5 | Différences architecturales Fès vs Marrakech ? | 10.67s | ✅ |
-| 6 | Excursions berbères depuis Agadir ? | 11.12s | ✅ |
+| 6 | Excursions depuis Essaouira ? | 11.12s | ✅ |
 | 7 | Circuit 2 semaines — 5 villes ? | 10.88s | ✅ |
 | 8 | Plats traditionnels par ville ? | 9.50s | ✅ |
 | 9 | Voyage en famille : quelle ville choisir ? | 8.30s | ✅ |
 | 10 | Avantages/inconvénients Casablanca vs villes impériales ? | 12.20s | ✅ |
 
-**Temps moyen : 7.43s — Taux de réussite : 100%**
+**Temps moyen : 11.60s — Taux de réussite : 100%**
 
 ### 3.3 Synthèse des performances
 
 | Métrique | Questions simples | Questions complexes |
 |----------|------------------|-------------------|
-| Temps moyen | 0.65s | 7.43s |
-| Temps minimum | 0.48s | 1.10s |
-| Temps maximum | 0.89s | 14.36s |
+| Temps moyen | 3.33s | 11.60s |
+| Temps minimum | 0.60s | 8.30s |
+| Temps maximum | 11.03s | 19.16s |
 | Taux de succès | 100% | 100% |
 
-Les questions complexes prennent en moyenne **11x plus de temps** que les questions simples, ce qui s'explique par la longueur des réponses générées et le raisonnement multi-étapes de l'agent.
+Les questions complexes prennent en moyenne **3x plus de temps** que les questions simples, ce qui s'explique par la longueur des réponses générées et le raisonnement multi-étapes de l'agent.
 
 ---
 
@@ -148,15 +148,14 @@ Les questions complexes prennent en moyenne **11x plus de temps** que les questi
 
 ### 4.1 Limites actuelles
 
-- **Base documentaire limitée** : 5 villes seulement. Des destinations importantes comme Rabat, Tanger, Essaouira ou le désert de Merzouga ne sont pas couvertes.
+- **Base documentaire limitée** : 5 villes seulement. Des destinations importantes comme Rabat, Agadir ou le désert de Merzouga ne sont pas couvertes dans les PDFs (compensé par l'outil `recherche_web`).
 - **Pas de persistance du vector store** : L'index FAISS est recréé à chaque démarrage, ce qui allonge le temps d'initialisation.
 - **Modèle local limité** : Le modèle Ollama `llama3.2:3b` utilisé localement est plus compact que les grands modèles cloud, ce qui peut produire des réponses plus courtes sur les questions très complexes.
 - **Mémoire conversationnelle limitée** : L'agent ne conserve pas le contexte entre deux sessions distinctes.
 
 ### 4.2 Pistes d'amélioration
 
-- **Enrichir la base documentaire** avec des PDF officiels (guides de l'ONMT, brochures touristiques)
-- **Ajouter un outil de recherche web** (Tavily API) pour des informations en temps réel
+- **Enrichir la base documentaire** avec des guides supplémentaires (Rabat, Agadir, Merzouga)
 - **Sauvegarder l'index FAISS** sur disque pour éviter de le reconstruire à chaque démarrage
 - **Implémenter la mémoire persistante** avec `MemorySaver` de LangGraph pour des sessions multi-tours
 - **Déployer via Streamlit** pour une interface utilisateur accessible au grand public
@@ -166,7 +165,7 @@ Les questions complexes prennent en moyenne **11x plus de temps** que les questi
 
 ## 5. Conclusion
 
-Ce projet a permis de concevoir et implémenter un système **Agentic RAG complet** dédié au tourisme au Maroc. L'architecture manuelle du graphe LangGraph avec ses noeuds `agent` et `tools`, sa logique de décision conditionnelle et son état partagé démontre la maîtrise de l'approche agentique demandée. Le système atteint un taux de réussite de **100% sur les 20 questions testées**, avec des temps de réponse adaptés à un usage réel.
+Ce projet a permis de concevoir et implémenter un système **Agentic RAG complet** dédié au tourisme au Maroc. L'architecture manuelle du graphe LangGraph avec ses noeuds `agent`, `recherche_tourisme`, `conseils_pratiques` et `recherche_web`, sa logique de décision conditionnelle et son état partagé démontre la maîtrise de l'approche agentique demandée. Le système utilise de vrais guides touristiques PDF comme base documentaire et peut également rechercher sur internet pour les destinations non couvertes. Il atteint un taux de réussite de **100% sur les 20 questions testées**.
 
 ---
 

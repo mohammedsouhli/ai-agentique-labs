@@ -4,23 +4,18 @@ Charge les documents, les découpe en chunks et crée l'index FAISS.
 """
 
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_community.document_loaders import DirectoryLoader, TextLoader
+from langchain_community.document_loaders import PyPDFDirectoryLoader
 from langchain_community.vectorstores import FAISS
 from langchain_huggingface import HuggingFaceEmbeddings
 
 
 def load_and_index_documents(docs_path="documents/"):
-    """Charge les documents, les vectorise et retourne le retriever."""
+    """Charge les documents PDF, les vectorise et retourne le retriever."""
 
-    # Chargement des fichiers texte
-    loader = DirectoryLoader(
-        docs_path,
-        glob="*.txt",
-        loader_cls=TextLoader,
-        loader_kwargs={"encoding": "utf-8"}
-    )
+    # Chargement des fichiers PDF
+    loader = PyPDFDirectoryLoader(docs_path)
     documents = loader.load()
-    print(f"[ingest] {len(documents)} documents chargés")
+    print(f"[ingest] {len(documents)} pages PDF chargées")
 
     # Découpage en chunks de 500 caractères avec 50 de chevauchement
     splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
